@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendi Kite — Spesialis Layangan Turnamen, Gelasan Tajam & Custom Desain</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome untuk Ikon Modern -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            900: '#0A1128',
+                            800: '#121E42',
+                            700: '#1C2E63',
+                        },
+                        electric: {
+                            orange: '#FF5E1A',
+                            amber: '#FFB800',
+                            sky: '#0EA5E9',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-14px) rotate(2deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Kustomisasi Scrollbar & Efek Visual Tambahan */
+        body {
+            background-color: #F8FAFC;
+            color: #0F172A;
+            overflow-x: hidden;
+        }
+        .hero-pattern {
+            background-color: #0A1128;
+            background-image: 
+                radial-gradient(at 85% 15%, rgba(14, 165, 233, 0.22) 0px, transparent 50%),
+                radial-gradient(at 15% 85%, rgba(255, 94, 26, 0.18) 0px, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+        }
+        .glass-nav {
+            background: rgba(10, 17, 40, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -10px rgba(10, 17, 40, 0.12);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-electric-orange selection:text-white">
+
+    <!-- ================= HEADER & NAVIGASI ================= -->
+    <header class="fixed top-0 left-0 right-0 z-40 glass-nav border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo Brand -->
+                <a href="#beranda" class="flex items-center gap-3 group">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-electric-orange to-electric-amber flex items-center justify-center shadow-lg shadow-orange-500/30 group-hover:scale-105 transition-transform">
+                        <!-- Ikon Layangan Sporty SVG -->
+                        <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L21 10L12 22L3 10L12 2Z" fill="rgba(255,255,255,0.2)"/>
+                            <path d="M12 2V22"/>
+                            <path d="M3 10C7 8 17 8 21 10"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-display font-extrabold text-xl tracking-tight text-white block leading-none">
+                            SENDI <span class="text-electric-orange">KITE</span>
+                        </span>
+                        <span class="text-[11px] font-medium text-sky-300 tracking-wider uppercase">Pro Kite & Gelasan</span>
+                    </div>
+                </a>
+
+                <!-- Menu Desktop -->
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="#beranda" class="text-sm font-medium text-slate-200 hover:text-electric-amber transition-colors">Beranda</a>
+                    <a href="#katalog" onclick="filterProducts('layangan')" class="text-sm font-medium text-slate-200 hover:text-electric-amber transition-colors">Katalog Layangan</a>
+                    <a href="#katalog" onclick="filterProducts('gelasan')" class="text-sm font-medium text-slate-200 hover:text-electric-amber transition-colors">Katalog Gelasan</a>
+                    <a href="#custom" class="text-sm font-medium text-slate-200 hover:text-electric-amber transition-colors">Custom Layangan</a>
+                </nav>
+
+                <!-- Tombol Cepat WhatsApp & Hamburger Mobile -->
+                <div class="flex items-center gap-3">
+                    <button onclick="openDirectWA('Halo Admin Sendi Kite! Saya ingin bertanya seputar produk layangan dan gelasan.')" 
+                        class="hidden sm:inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-lg shadow-emerald-500/25 transition-all active:scale-95">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Chat WhatsApp</span>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" aria-label="Buka Menu" class="md:hidden p-2.5 rounded-xl bg-white/10 text-white hover:bg-white/20 transition">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dropdown Menu Mobile -->
+        <div id="mobile-menu" class="hidden md:hidden bg-navy-900 border-b border-white/10 px-4 pt-2 pb-6 space-y-2">
+            <a href="#beranda" onclick="toggleMobileMenu()" class="block px-4 py-3 rounded-xl text-slate-200 hover:bg-white/10 font-medium">Beranda</a>
+            <a href="#katalog" onclick="filterProducts('layangan'); toggleMobileMenu()" class="block px-4 py-3 rounded-xl text-slate-200 hover:bg-white/10 font-medium">Katalog Layangan</a>
+            <a href="#katalog" onclick="filterProducts('gelasan'); toggleMobileMenu()" class="block px-4 py-3 rounded-xl text-slate-200 hover:bg-white/10 font-medium">Katalog Gelasan</a>
+            <a href="#custom" onclick="toggleMobileMenu()" class="block px-4 py-3 rounded-xl text-slate-200 hover:bg-white/10 font-medium">Custom Layangan</a>
+            <div class="pt-2">
+                <button onclick="openDirectWA('Halo Admin Sendi Kite! Saya ingin konsultasi pemesanan.')" 
+                    class="w-full flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 rounded-xl">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Chat WA: 0895-3842-78030</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= HERO SECTION ================= -->
+    <section id="beranda" class="hero-pattern pt-32 pb-20 lg:pt-40 lg:pb-28 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Kolom Teks Hero -->
+                <div class="lg:col-span-7 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-electric-amber text-xs sm:text-sm font-semibold mb-6">
+                        <span class="w-2 h-2 rounded-full bg-electric-orange animate-ping"></span>
+                        <span>Pusat Layangan Turnamen, Gelasan Tajam & Jasa Custom</span>
+                    </div>
+
+                    <h1 class="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.15] tracking-tight mb-6">
+                        Terbang Lebih Tinggi, <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-orange via-electric-amber to-sky-400">
+                            Adu Lebih Tajam.
+                        </span>
+                    </h1>
+
+                    <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed mb-8">
+                        Selamat datang di <strong class="text-white">Sendi Kite</strong>. Kami menyediakan layangan aduan seimbang berbahan bambu petung pilihan, gelasan turnamen super tajam, serta menerima pesanan <span class="text-sky-300 font-medium">custom desain layangan</span> sesuai identitas tim atau selera Anda.
+                    </p>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#custom" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-electric-orange to-orange-600 hover:from-orange-500 hover:to-orange-600 text-white font-bold px-7 py-4 rounded-2xl shadow-xl shadow-orange-600/30 transition-all hover:-translate-y-0.5">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span>Pesan Custom Sekarang</span>
+                        </a>
+                        <a href="#katalog" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-white/10 hover:bg-white/15 text-white border border-white/20 font-semibold px-7 py-4 rounded-2xl backdrop-blur-sm transition-all">
+                            <i class="fa-solid fa-layer-group text-sky-400"></i>
+                            <span>Lihat Katalog</span>
+                        </a>
+                    </div>
+
+                    <!-- Statistik Singkat -->
+                    <div class="grid grid-cols-3 gap-4 max-w-lg mx-auto lg:mx-0 mt-12 pt-8 border-t border-white/10">
+                        <div>
+                            <p class="font-display font-extrabold text-2xl sm:text-3xl text-white">100%</p>
+                            <p class="text-xs sm:text-sm text-slate-400">Rangka Presisi</p>
+                        </div>
+                        <div>
+                            <p class="font-display font-extrabold text-2xl sm:text-3xl text-electric-amber">Custom</p>
+                            <p class="text-xs sm:text-sm text-slate-400">Bebas Request Desain</p>
+                        </div>
+                        <div>
+                            <p class="font-display font-extrabold text-2xl sm:text-3xl text-sky-400">Fast</p>
+                            <p class="text-xs sm:text-sm text-slate-400">Order Langsung WA</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kolom Ilustrasi Layangan Sporty -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-md aspect-square flex items-center justify-center">
+                        <!-- Glow Belakang -->
+                        <div class="absolute inset-8 bg-gradient-to-tr from-electric-orange/30 via-sky-500/20 to-electric-amber/30 rounded-full blur-3xl"></div>
+                        
+                        <!-- Kartu Visual Layangan Modern -->
+                        <div class="relative bg-navy-800/80 border border-white/15 p-6 sm:p-8 rounded-3xl shadow-2xl backdrop-blur-md w-full animate-float">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="px-3 py-1 rounded-full bg-electric-orange/20 text-electric-orange text-xs font-bold uppercase tracking-wider">Best Seller</span>
+                                <span class="text-xs text-slate-400 font-mono">SERIES PRO-58</span>
+                            </div>
+
+                            <!-- SVG Ilustrasi Layangan Sukhoi Aerodinamis -->
+                            <svg viewBox="0 0 320 280" class="w-full h-56 sm:h-64 drop-shadow-[0_18px_24px_rgba(255,94,26,0.35)]">
+                                <defs>
+                                    <linearGradient id="kiteWingLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#FF5E1A"/>
+                                        <stop offset="100%" stop-color="#FFB800"/>
+                                    </linearGradient>
+                                    <linearGradient id="kiteWingRight" x1="100%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#0EA5E9"/>
+                                        <stop offset="100%" stop-color="#1D4ED8"/>
+                                    </linearGradient>
+                                </defs>
+                                <!-- Benang & Ekor -->
+                                <path d="M160 245 Q 145 265 165 278" stroke="#94A3B8" stroke-width="2" fill="none" stroke-dasharray="4 3"/>
+                                <!-- Sayap Kiri -->
+                                <polygon points="160,20 35,115 160,245" fill="url(#kiteWingLeft)"/>
+                                <!-- Sayap Kanan -->
+                                <polygon points="160,20 285,115 160,245" fill="url(#kiteWingRight)"/>
+                                <!-- Aksen Geometris Tengah -->
+                                <polygon points="160,55 95,115 160,185 225,115" fill="#0A1128" opacity="0.85"/>
+                                <polygon points="160,75 118,115 160,162 202,115" fill="#FFFFFF" opacity="0.95"/>
+                                <!-- Rangka Bambu Petung -->
+                                <line x1="160" y1="16" x2="160" y2="248" stroke="#FDE68A" stroke-width="3.5" stroke-linecap="round"/>
+                                <path d="M33 115 Q 160 72 287 115" stroke="#FDE68A" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                                <!-- Badge Logo Kecil di Layangan -->
+                                <circle cx="160" cy="117" r="14" fill="#FF5E1A"/>
+                                <text x="160" y="121" text-anchor="middle" fill="#FFFFFF" font-size="10" font-weight="bold" font-family="sans-serif">SK</text>
+                            </svg>
+
+                            <div class="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
+                                <div>
+                                    <p class="text-white font-bold text-base">Sukhoi Turnamen Lilit</p>
+                                    <p class="text-xs text-slate-400">Bambu Petung Tua • Kertas Minyak</p>
+                                </div>
+                                <button onclick="orderProductWA('Layangan Sukhoi Turnamen Pro-58', 'Rp 15.000 / pcs')" 
+                                    class="bg-white text-navy-900 hover:bg-electric-amber font-bold text-xs px-4 py-2.5 rounded-xl transition-colors">
+                                    Pesan Cepat
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= KEUNGGULAN SENDI KITE ================= -->
+    <section class="py-12 bg-white border-b border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="flex items-start gap-4 p-5 rounded-2xl bg-slate-50 border border-slate-100">
+                    <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center shrink-0 text-xl">
+                        <i class="fa-solid fa-compass-drafting"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-navy-900 text-base">Rangka Presisi & Seimbang</h3>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">Serutan bambu petung pilihan, lincah untuk tarik maupun ulur.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4 p-5 rounded-2xl bg-slate-50 border border-slate-100">
+                    <div class="w-12 h-12 rounded-xl bg-orange-100 text-electric-orange flex items-center justify-center shrink-0 text-xl">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-navy-900 text-base">Gelasan Teruji Lapangan</h3>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">Racikan beling termos & silikon tajam, siap turun turnamen.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4 p-5 rounded-2xl bg-slate-50 border border-slate-100">
+                    <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center shrink-0 text-xl">
+                        <i class="fa-solid fa-palette"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-navy-900 text-base">Bebas Request Custom</h3>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">Bisa cetak nama tim, kombinasi warna, hingga model layangan hias.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4 p-5 rounded-2xl bg-slate-50 border border-slate-100">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 text-xl">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-navy-900 text-base">Packing Aman & Rapi</h3>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">Dilengkapi pelindung rangka bambu & kardus tebal anti penyok.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= KATALOG PRODUK ================= -->
+    <section id="katalog" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Judul & Filter Tabs -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                <div>
+                    <span class="text-electric-orange font-bold text-sm uppercase tracking-wider">Koleksi Pilihan</span>
+                    <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-navy-900 mt-1">
+                        Katalog Layangan & Gelasan
+                    </h2>
+                    <p class="text-slate-600 text-sm sm:text-base mt-2 max-w-xl">
+                        Pilih kebutuhan tempur langit Anda. Klik tombol <strong>"Pesan via WA"</strong> untuk langsung terhubung dengan admin Sendi Kite.
+                    </p>
+                </div>
+
+                <!-- Tab Filter -->
+                <div class="inline-flex p-1.5 bg-white rounded-2xl border border-slate-200 shadow-sm self-start md:self-auto">
+                    <button onclick="filterProducts('all')" id="tab-all" class="filter-tab active px-5 py-2.5 rounded-xl text-sm font-bold transition-all bg-navy-900 text-white">
+                        Semua Produk
+                    </button>
+                    <button onclick="filterProducts('layangan')" id="tab-layangan" class="filter-tab px-5 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-600 hover:text-navy-900">
+                        Layangan
+                    </button>
+                    <button onclick="filterProducts('gelasan')" id="tab-gelasan" class="filter-tab px-5 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-600 hover:text-navy-900">
+                        Gelasan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid Kartu Produk (Diisi otomatis via JavaScript) -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Item katalog akan dirender di sini -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= STUDIO CUSTOM LAYANGAN ================= -->
+    <section id="custom" class="py-20 bg-navy-900 text-white relative overflow-hidden">
+        <!-- Dekorasi Latar -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-electric-orange/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="inline-block px-3.5 py-1 rounded-full bg-electric-orange/20 text-electric-orange text-xs font-bold uppercase tracking-wider mb-3">
+                    Custom Workshop Sendi Kite
+                </span>
+                <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-white">
+                    Rancang Layangan Custom Anda Sendiri
+                </h2>
+                <p class="text-slate-300 text-sm sm:text-base mt-3">
+                    Isi spesifikasi layangan impian Anda di bawah ini. Lihat simulasi warna & model secara langsung, lalu kirim detail pesanan otomatis ke WhatsApp kami.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Formulir Custom (7 Kolom) -->
+                <form id="custom-kite-form" onsubmit="submitCustomWA(event)" class="lg:col-span-7 bg-navy-800/90 border border-white/10 p-6 sm:p-8 rounded-3xl shadow-2xl space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <!-- Nama Pemesan -->
+                        <div>
+                            <label for="cust-name" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Nama Pemesan *</label>
+                            <input type="text" id="cust-name" required placeholder="Contoh: Raka Pratama / Tim Rajawali"
+                                class="w-full px-4 py-3 rounded-xl bg-navy-900/90 border border-white/15 text-white placeholder-slate-500 focus:outline-none focus:border-electric-orange text-sm">
+                        </div>
+
+                        <!-- Jenis / Model Layangan -->
+                        <div>
+                            <label for="cust-model" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Model Layangan *</label>
+                            <select id="cust-model" onchange="updateCustomPreview()"
+                                class="w-full px-4 py-3 rounded-xl bg-navy-900/90 border border-white/15 text-white focus:outline-none focus:border-electric-orange text-sm">
+                                <option value="Sukhoi Turnamen">Sukhoi Turnamen (Lincah & Tajam)</option>
+                                <option value="Seot Bandung">Seot Bandung (Tarikan Cepat)</option>
+                                <option value="Gapangan / Pegon">Gapangan / Pegon (Sendaren)</option>
+                                <option value="Layangan Hias / Koang">Layangan Hias / Koang / Naga</option>
+                                <option value="Model Khusus Lainnya">Model Khusus Lainnya</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <!-- Ukuran -->
+                        <div>
+                            <label for="cust-size" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Ukuran Layangan *</label>
+                            <select id="cust-size" onchange="updateCustomPreview()"
+                                class="w-full px-4 py-3 rounded-xl bg-navy-900/90 border border-white/15 text-white focus:outline-none focus:border-electric-orange text-sm">
+                                <option value="54 cm (Standar Aduan)">54 cm (Standar Aduan)</option>
+                                <option value="58 cm (Turnamen Pro)">58 cm (Turnamen Pro)</option>
+                                <option value="1 Meter+ (Besar / Hias)">1 Meter+ (Besar / Hias)</option>
+                                <option value="Ukuran Custom Sesuai Request">Ukuran Custom Sesuai Request</option>
+                            </select>
+                        </div>
+
+                        <!-- Bahan Rangka & Sampul -->
+                        <div>
+                            <label for="cust-material" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Bahan Rangka & Sampul *</label>
+                            <select id="cust-material" onchange="updateCustomPreview()"
+                                class="w-full px-4 py-3 rounded-xl bg-navy-900/90 border border-white/15 text-white focus:outline-none focus:border-electric-orange text-sm">
+                                <option value="Bambu Petung + Kertas Minyak">Bambu Petung + Kertas Minyak</option>
+                                <option value="Bambu Petung + Plastik / Mylar">Bambu Petung + Plastik / Mylar</option>
+                                <option value="Bambu Petung + Kain Parasut (Hias)">Bambu Petung + Kain Parasut (Hias)</option>
+                                <option value="Rangka Fiber + Sampul Mylar">Rangka Fiber + Sampul Mylar</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Pilihan Tema Warna Cepat + Input Motif -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Pilih Nuansa Warna Utama</label>
+                            <div class="flex items-center gap-3 pt-1">
+                                <button type="button" onclick="setPreviewColor('#FF5E1A', '#0A1128', 'Oranye & Hitam')" class="color-swatch w-8 h-8 rounded-full bg-gradient-to-tr from-[#FF5E1A] to-[#0A1128] ring-2 ring-white ring-offset-2 ring-offset-navy-800 transition-transform hover:scale-110" title="Oranye & Hitam"></button>
+                                <button type="button" onclick="setPreviewColor('#0EA5E9', '#FFFFFF', 'Biru Langit & Putih')" class="color-swatch w-8 h-8 rounded-full bg-gradient-to-tr from-[#0EA5E9] to-white transition-transform hover:scale-110" title="Biru Langit & Putih"></button>
+                                <button type="button" onclick="setPreviewColor('#EF4444', '#FACC15', 'Merah & Kuning Emas')" class="color-swatch w-8 h-8 rounded-full bg-gradient-to-tr from-[#EF4444] to-[#FACC15] transition-transform hover:scale-110" title="Merah & Kuning Emas"></button>
+                                <button type="button" onclick="setPreviewColor('#10B981', '#064E3B', 'Hijau Neon & Gelap')" class="color-swatch w-8 h-8 rounded-full bg-gradient-to-tr from-[#10B981] to-[#064E3B] transition-transform hover:scale-110" title="Hijau Neon"></button>
+                                <button type="button" onclick="setPreviewColor('#A855F7', '#EC4899', 'Ungu & Pink Elektrik')" class="color-swatch w-8 h-8 rounded-full bg-gradient-to-tr from-[#A855F7] to-[#EC4899] transition-transform hover:scale-110" title="Ungu & Pink"></button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="cust-qty" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Jumlah Pesanan *</label>
+                            <input type="text" id="cust-qty" required value="1 Kodi (20 pcs)" placeholder="Contoh: 10 pcs / 1 Kodi (20 pcs)"
+                                oninput="updateCustomPreview()"
+                                class="w-full px-4 py-3 rounded-xl bg-navy-900/90 border border-white/15 text-white placeholder-slate-500 focus:outline-none focus:border-electric-orange text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Konsep Desain / Sablon -->
+                    <div>
+                        <label for="cust-design" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Konsep Desain / Tulisan / Logo *</label>
+                        <input type="text" id="cust-design" required placeholder="Contoh: Motif Tengkorak Api + Tulisan Tim 'GARUDA SKY'"
+                            oninput="updateCustomPreview()"
+                            class="w-full px-4 py-3 rounded-xl bg-navy-900/90 border border-white/15 text-white placeholder-slate-500 focus:outline-none focus:border-electric-orange text-sm">
+                    </div>
+
+                    <!-- Catatan Tambahan -->
+                    <div>
+                        <label for="cust-notes" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Catatan Tambahan (Opsional)</label>
+                        <textarea id="cust-notes" rows="2" placeholder="Contoh: Rangka agak keras untuk main tarik kencang, kirim ke Bandung..."
+                            class="w-full px-4 py-3 rounded-xl bg-navy-900/90 border border-white/15 text-white placeholder-slate-500 focus:outline-none focus:border-electric-orange text-sm"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full flex items-center justify-center gap-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-4 px-6 rounded-2xl shadow-xl shadow-emerald-500/25 transition-all hover:-translate-y-0.5 text-base">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        <span>Kirim Pesanan Custom ke WhatsApp</span>
+                    </button>
+                </form>
+
+                <!-- Live Preview Card (5 Kolom) -->
+                <div class="lg:col-span-5 bg-gradient-to-b from-navy-800 to-navy-900 border border-white/15 p-6 sm:p-8 rounded-3xl shadow-2xl sticky top-24">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-sky-400 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+                            Live Preview Konsep
+                        </span>
+                        <span id="preview-badge-size" class="px-2.5 py-1 rounded-lg bg-white/10 text-xs font-mono text-slate-200">54 cm</span>
+                    </div>
+
+                    <!-- Visual SVG Dinamis -->
+                    <div class="bg-navy-950/60 rounded-2xl p-6 flex flex-col items-center justify-center border border-white/5 mb-6">
+                        <svg id="custom-kite-svg" viewBox="0 0 260 230" class="w-52 h-48 transition-all duration-300">
+                            <!-- Sayap Kiri -->
+                            <polygon id="svg-wing-left" points="130,15 25,95 130,205" fill="#FF5E1A"/>
+                            <!-- Sayap Kanan -->
+                            <polygon id="svg-wing-right" points="130,15 235,95 130,205" fill="#0A1128"/>
+                            <!-- Pola Tengah -->
+                            <polygon id="svg-center-diamond" points="130,48 75,95 130,150 185,95" fill="#FFFFFF" opacity="0.92"/>
+                            <!-- Tulang Bambu -->
+                            <line x1="130" y1="12" x2="130" y2="208" stroke="#FDE68A" stroke-width="3"/>
+                            <path d="M23 95 Q 130 58 237 95" stroke="#FDE68A" stroke-width="3" fill="none"/>
+                            <!-- Teks Label Custom -->
+                            <text id="svg-custom-label" x="130" y="100" text-anchor="middle" fill="#0A1128" font-size="11" font-weight="800" font-family="sans-serif">SENDI KITE</text>
+                        </svg>
+                        <p class="text-[11px] text-slate-400 mt-2 text-center">*Ilustrasi simulasi warna & komposisi rangka</p>
+                    </div>
+
+                    <!-- Ringkasan Spesifikasi Real-time -->
+                    <div class="space-y-3 text-sm bg-white/5 p-4 rounded-2xl border border-white/10">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Model:</span>
+                            <span id="prev-model" class="font-semibold text-white text-right">Sukhoi Turnamen</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Bahan:</span>
+                            <span id="prev-material" class="font-semibold text-slate-200 text-right">Bambu Petung + Kertas Minyak</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Nuansa Warna:</span>
+                            <span id="prev-color-name" class="font-semibold text-electric-amber text-right">Oranye & Hitam</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Jumlah:</span>
+                            <span id="prev-qty" class="font-semibold text-emerald-400 text-right">1 Kodi (20 pcs)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-navy-950 text-slate-300 border-t border-white/10 pt-16 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 pb-12 border-b border-white/10">
+                <!-- Brand Info -->
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-electric-orange to-electric-amber flex items-center justify-center">
+                            <i class="fa-solid fa-paper-plane text-white"></i>
+                        </div>
+                        <span class="font-display font-extrabold text-xl text-white">SENDI <span class="text-electric-orange">KITE</span></span>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Toko layangan modern & bengkel custom terpercaya. Menyediakan layangan aduan berkualitas tinggi, layangan hias, serta gelasan tajam standar turnamen.
+                    </p>
+                </div>
+
+                <!-- Navigasi Cepat -->
+                <div>
+                    <h4 class="font-bold text-white uppercase text-xs tracking-wider mb-4">Navigasi Toko</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#beranda" class="hover:text-electric-orange transition-colors">Beranda</a></li>
+                        <li><a href="#katalog" onclick="filterProducts('layangan')" class="hover:text-electric-orange transition-colors">Katalog Layangan Siap Pakai</a></li>
+                        <li><a href="#katalog" onclick="filterProducts('gelasan')" class="hover:text-electric-orange transition-colors">Katalog Gelasan Aduan</a></li>
+                        <li><a href="#custom" class="hover:text-electric-orange transition-colors">Pesan Layangan Custom</a></li>
+                    </ul>
+                </div>
+
+                <!-- Kontak WhatsApp -->
+                <div>
+                    <h4 class="font-bold text-white uppercase text-xs tracking-wider mb-4">Hubungi Admin Pemesanan</h4>
+                    <p class="text-sm text-slate-400 mb-4">
+                        Konsultasi stok, harga grosir/kodi, atau kirim referensi desain custom Anda langsung via WhatsApp:
+                    </p>
+                    <button onclick="openDirectWA('Halo Admin Sendi Kite! Saya ingin konsultasi pemesanan.')" 
+                        class="inline-flex items-center gap-3 bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-400 font-bold px-5 py-3 rounded-2xl transition-all">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        <span>0895-3842-78030</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                <p>&copy; 2026 Sendi Kite. Hak Cipta Dilindungi Undang-Undang.</p>
+                <p>Terbang Lebih Tinggi, Adu Lebih Tajam.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= FLOATING LIVE CHAT WIDGET (TERHUBUNG KE WA) ================= -->
+    <div class="fixed bottom-5 right-5 z-50 flex flex-col items-end">
+        <!-- Kotak Percakapan Widget -->
+        <div id="wa-chat-box" class="hidden mb-4 w-[330px] sm:w-[360px] bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden transition-all duration-300 origin-bottom-right">
+            <!-- Header Chat -->
+            <div class="bg-gradient-to-r from-navy-900 to-navy-800 p-4 text-white flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-electric-orange to-electric-amber flex items-center justify-center font-display font-extrabold text-white shadow">
+                            SK
+                        </div>
+                        <span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-400 border-2 border-navy-900"></span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm leading-tight">Admin Sendi Kite</h4>
+                        <p class="text-[11px] text-emerald-400 font-medium flex items-center gap-1 mt-0.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            Online • WhatsApp 0895-3842-78030
+                        </p>
+                    </div>
+                </div>
+                <button onclick="toggleChatWidget()" aria-label="Tutup Chat" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Isi Pesan Sambutan & Pertanyaan Cepat -->
+            <div class="p-4 bg-slate-100 space-y-3 max-h-80 overflow-y-auto">
+                <!-- Bubble Admin -->
+                <div class="bg-white p-3.5 rounded-2xl rounded-tl-none shadow-sm border border-slate-200/60 text-xs sm:text-sm text-slate-700 leading-relaxed">
+                    Halo Juragan! 👋 Selamat datang di <strong class="text-navy-900">Sendi Kite</strong>. Ada yang bisa kami bantu hari ini? Pilih topik cepat di bawah atau ketik pesan langsung:
+                </div>
+
+                <!-- Pilihan Topik Cepat -->
+                <div class="flex flex-col gap-2 pt-1">
+                    <button onclick="openDirectWA('Halo Admin Sendi Kite, saya mau tanya stok & harga layangan siap pakai.')" 
+                        class="text-left text-xs font-semibold bg-white hover:bg-sky-50 text-navy-900 border border-slate-200 hover:border-sky-300 px-3.5 py-2.5 rounded-xl transition flex items-center justify-between group">
+                        <span>🪁 Tanya Stok & Harga Layangan</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-sky-500"></i>
+                    </button>
+
+                    <button onclick="openDirectWA('Halo Admin Sendi Kite, saya mau tanya stok gelasan aduan/turnamen yang ready.')" 
+                        class="text-left text-xs font-semibold bg-white hover:bg-orange-50 text-navy-900 border border-slate-200 hover:border-orange-300 px-3.5 py-2.5 rounded-xl transition flex items-center justify-between group">
+                        <span>🧵 Tanya Stok Gelasan Tajam</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-electric-orange"></i>
+                    </button>
+
+                    <button onclick="openDirectWA('Halo Admin Sendi Kite, saya mau konsultasi pesanan custom desain layangan.')" 
+                        class="text-left text-xs font-semibold bg-white hover:bg-emerald-50 text-navy-900 border border-slate-200 hover:border-emerald-300 px-3.5 py-2.5 rounded-xl transition flex items-center justify-between group">
+                        <span>🎨 Konsultasi Custom Layangan</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-emerald-500"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Form Ketik Pesan Langsung ke WA -->
+            <form onsubmit="sendWidgetChatWA(event)" class="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
+                <input type="text" id="widget-chat-input" required placeholder="Ketik pesan ke WhatsApp..." 
+                    class="flex-1 text-xs sm:text-sm bg-slate-100 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-emerald-500">
+                <button type="submit" aria-label="Kirim ke WhatsApp" 
+                    class="w-10 h-10 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-500/20 transition active:scale-95">
+                    <i class="fa-solid fa-paper-plane text-sm"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Tombol Trigger Melayang -->
+        <button onclick="toggleChatWidget()" 
+            class="group flex items-center gap-3 bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-3.5 rounded-full shadow-2xl shadow-emerald-600/40 transition-all hover:scale-105 active:scale-95">
+            <span class="relative flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+            </span>
+            <span class="font-bold text-sm hidden sm:inline">Chat Pemesanan</span>
+            <i class="fa-brands fa-whatsapp text-2xl"></i>
+        </button>
+    </div>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        // Nomor WhatsApp Resmi Sendi Kite (Format Internasional)
+        const WA_NUMBER = '62895384278030';
+
+        // Database Produk Katalog Sendi Kite
+        const products = [
+            {
+                id: 1,
+                category: 'layangan',
+                badge: 'Turnamen Pro',
+                badgeColor: 'bg-orange-100 text-electric-orange',
+                name: 'Layangan Sukhoi Turnamen',
+                specs: 'Bambu Petung Tua • Kertas Minyak • Uk. 58 cm',
+                price: 'Rp 15.000 / pcs',
+                primaryColor: '#FF5E1A',
+                secondaryColor: '#0A1128',
+                iconType: 'kite-sukhoi'
+            },
+            {
+                id: 2,
+                category: 'layangan',
+                badge: 'Best Seller',
+                badgeColor: 'bg-sky-100 text-sky-700',
+                name: 'Layangan Seot Bandung Super',
+                specs: 'Rangka Lincah • Kertas Tisu/Minyak • Uk. 54 cm',
+                price: 'Rp 12.000 / pcs',
+                primaryColor: '#0EA5E9',
+                secondaryColor: '#1E3A8A',
+                iconType: 'kite-seot'
+            },
+            {
+                id: 3,
+                category: 'layangan',
+                badge: 'Paket Hemat',
+                badgeColor: 'bg-emerald-100 text-emerald-700',
+                name: 'Layangan Aduan Harian (Isi 10)',
+                specs: 'Bambu Pilihan • Seimbang • Paket 10 Pcs',
+                price: 'Rp 45.000 / pak',
+                primaryColor: '#10B981',
+                secondaryColor: '#065F46',
+                iconType: 'kite-pack'
+            },
+            {
+                id: 4,
+                category: 'layangan',
+                badge: 'Koleksi Hias',
+                badgeColor: 'bg-amber-100 text-amber-700',
+                name: 'Layangan Hias Naga / Koang',
+                specs: 'Rangka Kokoh • Kain Parasut • Bentang 1.5M+',
+                price: 'Rp 85.000 / pcs',
+                primaryColor: '#F59E0B',
+                secondaryColor: '#B91C1C',
+                iconType: 'kite-hias'
+            },
+            {
+                id: 5,
+                category: 'gelasan',
+                badge: 'Super Tajam',
+                badgeColor: 'bg-red-100 text-red-700',
+                name: 'Gelasan Matot Turnamen 0.22',
+                specs: 'Bahan Mati Total • Beling Termos • 2000 Yard',
+                price: 'Rp 65.000 / klos',
+                primaryColor: '#EF4444',
+                secondaryColor: '#111827',
+                iconType: 'gelasan'
+            },
+            {
+                id: 6,
+                category: 'gelasan',
+                badge: 'Sasak Padi',
+                badgeColor: 'bg-orange-100 text-electric-orange',
+                name: 'Gelasan Salatin Sasak Padi',
+                specs: 'Tekstur Sasak Padi • Tajam Gigit • Uk. 0.22',
+                price: 'Rp 55.000 / klos',
+                primaryColor: '#F97316',
+                secondaryColor: '#1E293B',
+                iconType: 'gelasan'
+            },
+            {
+                id: 7,
+                category: 'gelasan',
+                badge: 'Halus Berasa',
+                badgeColor: 'bg-sky-100 text-sky-700',
+                name: 'Gelasan Huwi Super Halus',
+                specs: 'Halus Berasa • Racikan Silikon • Main Ulur/Jepret',
+                price: 'Rp 60.000 / klos',
+                primaryColor: '#0284C7',
+                secondaryColor: '#0F172A',
+                iconType: 'gelasan'
+            },
+            {
+                id: 8,
+                category: 'gelasan',
+                badge: 'Tarikan Ekstrem',
+                badgeColor: 'bg-purple-100 text-purple-700',
+                name: 'Gelasan Tarikan Ekstrem Pro',
+                specs: 'Senar Molor Khusus • Penajam Ganda • 2000 Yard',
+                price: 'Rp 50.000 / klos',
+                primaryColor: '#9333EA',
+                secondaryColor: '#1E1B4B',
+                iconType: 'gelasan'
+            }
+        ];
+
+        // Fungsi Menghasilkan Ilustrasi SVG Modern per Produk
+        function getProductIllustration(item) {
+            if (item.category === 'layangan') {
+                return `
+                <svg viewBox="0 0 200 150" class="w-36 h-28 mx-auto drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+                    <polygon points="100,10 25,65 100,140" fill="${item.primaryColor}"/>
+                    <polygon points="100,10 175,65 100,140" fill="${item.secondaryColor}"/>
+                    <polygon points="100,32 62,65 100,102 138,65" fill="#FFFFFF" opacity="0.9"/>
+                    <line x1="100" y1="8" x2="100" y2="142" stroke="#FDE68A" stroke-width="2.5"/>
+                    <path d="M23 65 Q 100 38 177 65" stroke="#FDE68A" stroke-width="2.5" fill="none"/>
+                </svg>`;
+            } else {
+                return `
+                <svg viewBox="0 0 200 150" class="w-36 h-28 mx-auto drop-shadow-md group-hover:scale-105 transition-transform duration-300">
+                    <!-- Gulungan / Klos Gelasan Modern -->
+                    <rect x="45" y="25" width="110" height="16" rx="6" fill="#1E293B"/>
+                    <rect x="45" y="109" width="110" height="16" rx="6" fill="#1E293B"/>
+                    <!-- Lilitan Benang Gelasan -->
+                    <rect x="55" y="41" width="90" height="68" rx="4" fill="${item.primaryColor}"/>
+                    <line x1="55" y1="52" x2="145" y2="52" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+                    <line x1="55" y1="64" x2="145" y2="64" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+                    <line x1="55" y1="76" x2="145" y2="76" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+                    <line x1="55" y1="88" x2="145" y2="88" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+                    <line x1="55" y1="100" x2="145" y2="100" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+                    <!-- Label Klos -->
+                    <rect x="68" y="56" width="64" height="38" rx="6" fill="#FFFFFF"/>
+                    <text x="100" y="74" text-anchor="middle" fill="#0A1128" font-size="9" font-weight="800" font-family="sans-serif">SENDI KITE</text>
+                    <text x="100" y="85" text-anchor="middle" fill="${item.primaryColor}" font-size="7" font-weight="700" font-family="sans-serif">PRO LINE 0.22</text>
+                    <!-- Ujung Benang -->
+                    <path d="M145 75 Q 175 75 182 115" stroke="${item.primaryColor}" stroke-width="2" fill="none"/>
+                </svg>`;
+            }
+        }
+
+        // Render Katalog Produk
+        function renderProducts(filter = 'all') {
+            const grid = document.getElementById('product-grid');
+            const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
+
+            grid.innerHTML = filtered.map(item => `
+                <div class="group bg-white rounded-3xl border border-slate-200/80 p-5 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 rounded-full text-[11px] font-bold ${item.badgeColor}">
+                                ${item.badge}
+                            </span>
+                            <span class="text-[11px] font-semibold uppercase text-slate-400">
+                                ${item.category}
+                            </span>
+                        </div>
+
+                        <!-- Area Ilustrasi -->
+                        <div class="bg-slate-50 rounded-2xl py-5 px-3 mb-4 border border-slate-100 flex items-center justify-center">
+                            ${getProductIllustration(item)}
+                        </div>
+
+                        <h3 class="font-display font-bold text-lg text-navy-900 leading-snug">
+                            ${item.name}
+                        </h3>
+                        <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">
+                            ${item.specs}
+                        </p>
+                    </div>
+
+                    <div class="mt-5 pt-4 border-t border-slate-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs text-slate-400">Harga</span>
+                            <span class="font-display font-extrabold text-base text-navy-900">${item.price}</span>
+                        </div>
+                        <button onclick="orderProductWA('${item.name}', '${item.price}')" 
+                            class="w-full flex items-center justify-center gap-2 bg-navy-900 hover:bg-emerald-600 text-white font-semibold text-sm py-3 px-4 rounded-xl transition-colors">
+                            <i class="fa-brands fa-whatsapp text-base"></i>
+                            <span>Pesan via WA</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter Tab Katalog
+        function filterProducts(category) {
+            renderProducts(category);
+            document.querySelectorAll('.filter-tab').forEach(btn => {
+                btn.classList.remove('bg-navy-900', 'text-white');
+                btn.classList.add('text-slate-600');
+            });
+            const activeTab = document.getElementById(`tab-${category}`);
+            if (activeTab) {
+                activeTab.classList.add('bg-navy-900', 'text-white');
+                activeTab.classList.remove('text-slate-600');
+            }
+        }
+
+        // ================= FUNGSI WHATSAPP INTEGRASI =================
+        function openDirectWA(messageText) {
+            const encodedText = encodeURIComponent(messageText);
+            const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodedText}`;
+            window.open(waUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        function orderProductWA(productName, productPrice) {
+            const text = `Halo Admin *Sendi Kite*! 👋\nSaya ingin memesan produk dari katalog:\n\n• *Produk:* ${productName}\n• *Harga:* ${productPrice}\n• *Jumlah:* 1 (bisa disesuaikan)\n\nMohon info ketersediaan stok dan ongkirnya ya. Terima kasih!`;
+            openDirectWA(text);
+        }
+
+        // ================= CUSTOM KITE PREVIEW & SUBMIT =================
+        let selectedColorLabel = 'Oranye & Hitam';
+
+        function setPreviewColor(primary, secondary, label) {
+            selectedColorLabel = label;
+            document.getElementById('svg-wing-left').setAttribute('fill', primary);
+            document.getElementById('svg-wing-right').setAttribute('fill', secondary);
+            document.getElementById('prev-color-name').textContent = label;
+        }
+
+        function updateCustomPreview() {
+            const model = document.getElementById('cust-model').value;
+            const size = document.getElementById('cust-size').value;
+            const material = document.getElementById('cust-material').value;
+            const qty = document.getElementById('cust-qty').value || '-';
+            const design = document.getElementById('cust-design').value.trim();
+
+            document.getElementById('prev-model').textContent = model;
+            document.getElementById('preview-badge-size').textContent = size.split(' ')[0] + ' ' + (size.split(' ')[1] || '');
+            document.getElementById('prev-material').textContent = material;
+            document.getElementById('prev-qty').textContent = qty;
+
+            // Update teks singkat di dalam SVG preview
+            const labelEl = document.getElementById('svg-custom-label');
+            if (design.length > 0) {
+                labelEl.textContent = design.substring(0, 14).toUpperCase();
+            } else {
+                labelEl.textContent = 'SENDI KITE';
+            }
+        }
+
+        function submitCustomWA(event) {
+            event.preventDefault();
+            const name = document.getElementById('cust-name').value.trim();
+            const model = document.getElementById('cust-model').value;
+            const size = document.getElementById('cust-size').value;
+            const material = document.getElementById('cust-material').value;
+            const qty = document.getElementById('cust-qty').value.trim();
+            const design = document.getElementById('cust-design').value.trim();
+            const notes = document.getElementById('cust-notes').value.trim() || '-';
+
+            const message = 
+`Halo Admin *Sendi Kite*! 🪁
+Saya ingin memesan *LAYANGAN CUSTOM* dengan detail berikut:
+
+👤 *Nama Pemesan:* ${name}
+🪁 *Model Layangan:* ${model}
+📏 *Ukuran:* ${size}
+🎋 *Bahan Rangka & Sampul:* ${material}
+🎨 *Nuansa Warna:* ${selectedColorLabel}
+🖌️ *Konsep Desain / Tulisan:* ${design}
+📦 *Jumlah Pesanan:* ${qty}
+📝 *Catatan Tambahan:* ${notes}
+
+Mohon estimasi harga dan waktu pengerjaannya ya Admin. Terima kasih!`;
+
+            openDirectWA(message);
+        }
+
+        // ================= WIDGET CHAT & MOBILE MENU =================
+        function toggleChatWidget() {
+            const chatBox = document.getElementById('wa-chat-box');
+            chatBox.classList.toggle('hidden');
+            if (!chatBox.classList.contains('hidden')) {
+                setTimeout(() => document.getElementById('widget-chat-input').focus(), 150);
+            }
+        }
+
+        function sendWidgetChatWA(event) {
+            event.preventDefault();
+            const input = document.getElementById('widget-chat-input');
+            const userMessage = input.value.trim();
+            if (!userMessage) return;
+
+            const fullMessage = `Halo Admin *Sendi Kite*! 👋\n${userMessage}`;
+            input.value = '';
+            openDirectWA(fullMessage);
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+
+        // Inisialisasi awal saat halaman selesai dimuat
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProducts('all');
+        });
+    </script>
+</body>
+</html>
